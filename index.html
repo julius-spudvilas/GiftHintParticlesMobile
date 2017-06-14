@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+
+<body>
+<div id="particles-js"></div>
+<!-- stats - count particles -->
+<div class="count-particles">
+  <span class="js-count-particles">--</span> particles
+</div>
+
+<div style="
+    width: 100px;
+    height: 100px;
+    background: black;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    display: none;
+"></div>
+
+</body>
+
+<script src="scripts/particles.js"></script>
+<script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+
+<script>
+    particlesJS("particles-js", {
+  "particles": {
+    "number": {
+      "value": 100,
+      "density": {
+        "enable": false,
+        "value_area": 50
+      }
+    },
+    "color": {
+      "value": "#ffffff"
+    },
+    "shape": {
+      "type": "image",
+      "stroke": {
+        "width": 0,
+        "color": "#000000"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+      "image": {
+        // "src": "http://www.pandora.net/assets/content?sku=792075ENMX&format=png&width=124&height=124&hash=3F6EDB987EFFD59D09C27BAB7F417E624C2D694E",
+        "src": "heart.png",
+        "width": 2000,
+        "height": 2000
+      }
+    },
+    "opacity": {
+      "value": 1,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 25,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 10,
+        "size_min": 10,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": false,
+      "distance": 150,
+      "color": "#ffffff",
+      "opacity": 0.4,
+      "width": 1
+    },
+    "move": {
+      "enable": true,
+      "speed": 3,
+      "direction": "none",
+      "random": false,
+      "straight": true,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 600,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "repulse"
+      },
+      "onclick": {
+        "enable": false,
+        "mode": "repulse"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 400,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 400,
+        "size": 40,
+        "duration": 2,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 150,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+});
+</script>
+
+<script>
+    /* ---- stats.js config ---- */
+
+var count_particles, stats, update;
+stats = new Stats;
+stats.setMode(0);
+stats.domElement.style.position = 'absolute';
+stats.domElement.style.left = '0px';
+stats.domElement.style.top = '0px';
+document.body.appendChild(stats.domElement);
+count_particles = document.querySelector('.js-count-particles');
+update = function() {
+  stats.begin();
+  stats.end();
+  if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+  }
+  requestAnimationFrame(update);
+};
+requestAnimationFrame(update);
+</script>
+
+<script>
+var canvasWidth = document.getElementById("particles-js").offsetWidth,
+    canvasHeight = document.getElementById("particles-js").offsetHeight,
+    runOnce = true,
+    removeParticle = function() {
+    if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+        if(window.pJSDom[0].pJS.particles.array.length >= 1){
+          for (element = 0; element < window.pJSDom[0].pJS.particles.array.length; ++element) {
+            var particleX = window.pJSDom[0].pJS.particles.array[element].x,
+                particleY = window.pJSDom[0].pJS.particles.array[element].y,
+                particleWidth = 100,
+                horizontalOut = (particleX - (particleWidth / 2)) >= canvasWidth  || (particleX + (particleWidth / 2)) <= 0,
+                verticalOut = (particleY - (particleWidth / 2)) >= canvasHeight || (particleY + (particleWidth / 2)) <= 0;            
+            if( horizontalOut || verticalOut) {                
+                window.pJSDom[0].pJS.particles.array.splice(element,1);
+                window.pJSDom[0].pJS.particlesDraw;
+                console.log(element + " Particle removed");
+            }
+          };
+        } else {
+          console.log("no more particles")
+        };
+    }
+    requestAnimationFrame(removeParticle);
+};
+console.clear();
+requestAnimationFrame(removeParticle);
+</script>
+</html>
