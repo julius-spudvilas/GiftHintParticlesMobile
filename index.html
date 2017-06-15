@@ -203,7 +203,8 @@ setTimeout(function(){
 
 var x = 0, y = 0,
     vx = 0, vy = 0,
-	ax = 0, ay = 0;
+	ax = 0, ay = 0,
+  sensitivity= 0.2;
 	
 var sphere = document.getElementById("sphere");
 
@@ -231,8 +232,8 @@ if (window.DeviceMotionEvent != undefined) {
 			vy = vy - ay;
 			vx = vx + ax;
 		}
-		vx = vx * 0.98;
-		vy = vy * 0.98;
+		vx = vx * 0.98 * sensitivity;
+		vy = vy * 0.98 * sensitivity;
 		y = parseInt(y + vy / 50);
 		x = parseInt(x + vx / 50);
 		
@@ -246,6 +247,7 @@ if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
     window.pJSDom[0].pJS.particles.array[element].x = window.pJSDom[0].pJS.particles.array[element].x + x;
     window.pJSDom[0].pJS.particles.array[element].y = window.pJSDom[0].pJS.particles.array[element].y + y;		
           }}}
+    window.pJSDom[0].pJS.fn.particlesUpdate();
 	}, 25);
 } 
 
