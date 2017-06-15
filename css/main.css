@@ -35,7 +35,30 @@ canvas {
   background-position: 50% 50%;
   -webkit-tap-highlight-color: none;
 }
+.circle {
+  width: 200px;
+    height: 200px;
+    background: #281a3c;
+    position: fixed;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    margin: -100px;
+    z-index: 10;
+    display: block;
+    pointer-events:  none;
+}
 
+.header-text {
+  position: absolute;
+  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #99755d;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+}
 /* ---- stats.js ---- */
 
 .count-particles{
@@ -70,4 +93,10 @@ canvas {
 
 .count-particles{
   border-radius: 0 0 3px 3px;
+}
+
+#stats{
+  position: absolute;
+  top: 0;
+  right: 0;
 }
