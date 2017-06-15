@@ -18,6 +18,10 @@ body {
   background: white;
 }
 
+body.hide #cover {
+  display: none;
+}
+
 canvas {
   display: block;
   vertical-align: bottom;
