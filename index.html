@@ -35,9 +35,9 @@
     particlesJS("particles-js", {
   "particles": {
     "number": {
-      "value": 100,
+      "value": 1,
       "density": {
-        "enable": true,
+        "enable": false,
         "value_area": 200
       }
     },
@@ -193,11 +193,12 @@ var canvasWidth = document.getElementById("particles-js").offsetWidth,
 console.clear();
 requestAnimationFrame(removeParticle);
 </script>
-<script type="text/javascript">
+<!--<script type="text/javascript">
 setTimeout(function(){ 
-  window.pJSDom[0].pJS.particles.move.direction = "bottom"
+  window.pJSDom[0].pJS.particles.move.direction = "bottom";
+  window.pJSDom[0].pJS.fn.particlesUpdate();
  }, 3000);
-</script>
+</script>-->
 <script type="text/javascript">
 
 var x = 0, y = 0,
@@ -239,7 +240,12 @@ if (window.DeviceMotionEvent != undefined) {
 		
 		sphere.style.top = y + "px";
 		sphere.style.left = x + "px";
-		
+if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+        if(window.pJSDom[0].pJS.particles.array.length >= 1){
+          for (element = 0; element < window.pJSDom[0].pJS.particles.array.length; ++element) {
+    window.pJSDom[0].pJS.particles.array[element].x = window.pJSDom[0].pJS.particles.array[element].x + x;
+    window.pJSDom[0].pJS.particles.array[element].y = window.pJSDom[0].pJS.particles.array[element].y + y;		
+          }}}
 	}, 25);
 } 
 
