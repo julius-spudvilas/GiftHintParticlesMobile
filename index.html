@@ -22,23 +22,17 @@
 <div id="page">
   <img src="mobile_03.jpg"/>
 </div>
-<!--<div id="sphere" style="top: 0px; left: 0px;"></div>
-<ul id="stats-orrientation" style="display: none;">
-	<li>acceleration x: <span id="accelerationX"></span>g</li>
-	<li>acceleration y: <span id="accelerationY"></span>g</li>
-	<li>acceleration z: <span id="accelerationZ"></span>g</li>
-	<li>rotation alpha: <span id="rotationAlpha"></span>degree</li>
-	<li>rotation beta: <span id="rotationBeta"></span>degree</li>
-	<li>rotation gamma: <span id="rotationGamma"></span>degree</li>
-</ul>-->
 </body>
 
 <script src="scripts/particles.js"></script>
 <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
 
 <script>
-    particlesJS("particles-js", {
-  "particles": {
+  var options = 'scripts/options.jason',
+  hearts = ['hearts/heart-grey.png','hearts/heart-grey2.png','hearts/heart-grey3.png','hearts/heart-grey-reverse.png','hearts/heart-grey2-reverse.png','hearts/heart-grey3-reverse.png','hearts/heart-pink.png','hearts/heart-pink2.png','hearts/heart-pink3.png','hearts/heart-pink-reverse.png','hearts/heart-pink2-reverse.png','hearts/heart-pink3-reverse.png','hearts/heart-yelow.png','hearts/heart-yelow2.png','hearts/heart-yelow3.png','hearts/heart-yelow-reverse.png','hearts/heart-yelow2-reverse.png','hearts/heart-yelow3-reverse.png'];
+        particlesJS('particles-js', {
+        "particles": {
     "number": {
       "value": 100,
       "density": {
@@ -56,13 +50,12 @@
         "color": "#000000"
       },
       "polygon": {
-        "nb_sides": 3
+        "nb_sides": 5
       },
-      "image": {
-        // "src": "http://www.pandora.net/assets/content?sku=792075ENMX&format=png&width=124&height=124&hash=3F6EDB987EFFD59D09C27BAB7F417E624C2D694E",
-        "src": "heart-yelow.png",
-        "width": 50,
-        "height": 50
+      "image": {           
+        "src": "hearts/transparent1x1.png",
+        "width": 65,
+        "height": 65
       }
     },
     "opacity": {
@@ -148,6 +141,29 @@
   },
   "retina_detect": true
 });
+        var pJS = window.pJSDom[0].pJS,
+          particles = pJS.particles.array;
+        setTimeout(() => {
+          particles.forEach(particle => this.customizeParticle(particle))
+        }, 100);
+
+       var customizeParticle = function(particle) {
+        const random = Math.floor(Math.random() * hearts.length),
+          image = new Image()
+          opacityObject = {opacity: 0}
+        TweenLite.to(opacityObject, 2, {
+          opacity: 1,
+          ease: window.Power1.easeOut
+        })
+        image.addEventListener('load', () => {
+          particle.customDraw = (canvasContext, x, y, width, height) => {
+            canvasContext.globalAlpha = opacityObject.opacity
+            canvasContext.drawImage(image, x, y, width, height)
+          }
+        })
+        image.src = hearts[random]
+      }
+
 </script>
 
 <script type="text/javascript">
@@ -182,7 +198,7 @@ setTimeout( function() {
           for (element = 0; element < window.pJSDom[0].pJS.particles.array.length; ++element) {
             var particleX = window.pJSDom[0].pJS.particles.array[element].x / 2,
                 particleY = window.pJSDom[0].pJS.particles.array[element].y / 2,
-                particleWidth = 10,
+                particleWidth = 25,
                 horizontalOut = (particleX - (particleWidth / 2)) >= canvasWidth  || (particleX + (particleWidth / 2)) <= 0,
                 verticalOut = (particleY - (particleWidth / 2)) >= canvasHeight || (particleY + (particleWidth / 2)) <= 0;            
             if( horizontalOut || verticalOut) {                
@@ -206,72 +222,4 @@ requestAnimationFrame(removeParticle);
 }, 3000 );
 
 </script>
-<!--<script type="text/javascript">
-setTimeout(function(){ 
-  window.pJSDom[0].pJS.particles.move.direction = "bottom";
-  window.pJSDom[0].pJS.fn.particlesUpdate();
- }, 3000);
-</script>-->
-<!--<script type="text/javascript">
-
-var x = 0, y = 0,
-    vx = 0, vy = 0,
-	ax = 0, ay = 0,
-  sensitivity= 0.2;
-	
-var sphere = document.getElementById("sphere");
-
-if (window.DeviceMotionEvent != undefined) {
-	window.ondevicemotion = function(e) {
-		ax = event.accelerationIncludingGravity.x * 5;
-		ay = event.accelerationIncludingGravity.y * 5;
-		document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
-		document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
-		document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
-
-		if ( e.rotationRate ) {
-			document.getElementById("rotationAlpha").innerHTML = e.rotationRate.alpha;
-			document.getElementById("rotationBeta").innerHTML = e.rotationRate.beta;
-			document.getElementById("rotationGamma").innerHTML = e.rotationRate.gamma;
-		}		
-	}
-
-	setInterval( function() {
-		var landscapeOrientation = window.innerWidth/window.innerHeight > 1;
-		if ( landscapeOrientation) {
-			vx = vx + ay;
-			vy = vy + ax;
-		} else {
-			vy = vy - ay;
-			vx = vx + ax;
-		}
-		vx = vx * 0.98;
-		vy = vy * 0.98;
-		y = parseInt(y + vy / 50);
-		x = parseInt(x + vx / 50);
-		
-		boundingBoxCheck();
-		
-		sphere.style.top = y + "px";
-		sphere.style.left = x + "px";
-if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-        if(window.pJSDom[0].pJS.particles.array.length >= 1){
-          for (element = 0; element < window.pJSDom[0].pJS.particles.array.length; ++element) {
-    window.pJSDom[0].pJS.particles.array[element].x = window.pJSDom[0].pJS.particles.array[element].x + x;
-    window.pJSDom[0].pJS.particles.array[element].y = window.pJSDom[0].pJS.particles.array[element].y + y;		
-          }}}
-    window.pJSDom[0].pJS.fn.particlesUpdate();
-	}, 25);
-} 
-
-
-function boundingBoxCheck(){
-	if (x<0) { x = 0; vx = -vx; }
-	if (y<0) { y = 0; vy = -vy; }
-	if (x>document.documentElement.clientWidth-20) { x = document.documentElement.clientWidth-20; vx = -vx; }
-	if (y>document.documentElement.clientHeight-20) { y = document.documentElement.clientHeight-20; vy = -vy; }
-	
-}
-
-</script>-->
 </html>
